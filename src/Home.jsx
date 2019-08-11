@@ -11,9 +11,6 @@ const StyledDiv = styled.div`
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            loading: true
-        };
     }
     componentDidMount = async () => {
         let response = await fetch('/session');
@@ -23,12 +20,16 @@ class Home extends Component {
             this.props.dispatch({
                 type: 'login-success'
             });
-            this.props.history.push('/products');
+            this.props.history.push('/items');
         }
-        this.setState({ loading: false });
+        else {
+            this.props.dispatch({
+                type: 'logout-success'
+            });
+        }
     }
     render = () => {
-        if (this.state.loading || this.props.lgin) {
+        if (this.props.lgin === null || this.props.lgin) {
             return <></>;
         }
         return (

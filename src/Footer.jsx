@@ -8,7 +8,8 @@ const StyledFooter = styled.footer`
     display: flex;
     align-items: center;
     width: calc(100vw - 250px);
-    position: absolute;
+    position: fixed;
+    background-color: white;
     bottom: 0px;
     height: 40px;
     border-top: 1px solid rgba(112, 112, 112, 0.5);

@@ -46,7 +46,7 @@ class Signup extends Component {
         this.props.dispatch({ 
             type: "login-success"
          });
-         this.props.history.push('/products');
+         this.props.history.push('/items');
     }
     render = () => {
         if (this.props.lgin) {

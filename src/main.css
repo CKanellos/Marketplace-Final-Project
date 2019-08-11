@@ -13,6 +13,17 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
+button,
+input[type="submit"] {
+    font-family: Helvetica, sans-serif;
+    outline: none;
+}
+
 input[type="text"],
 input[type="password"] {
     background-color: rgb(240, 240, 240);
@@ -20,6 +31,7 @@ input[type="password"] {
     border-radius: 2px;
     padding: 15px;
     margin-bottom: 10px;
+    outline: none;
 }
 
 .firstHeading {

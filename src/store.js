@@ -1,7 +1,8 @@
 import { createStore } from 'redux';
 
 const initialState = {
-    loggedIn: false
+    loggedIn: null,
+    products: []
 };
 
 let reducer = (state, action) => {
@@ -10,6 +11,9 @@ let reducer = (state, action) => {
     }
     if (action.type === "logout-success") {
         return { ...state, loggedIn: false };
+    }
+    if (action.type === "update-products") {
+        return { ...state, products: action.products };
     }
     return state;
 };
