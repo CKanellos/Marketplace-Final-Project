@@ -18,7 +18,7 @@ const StyledDiv = styled.div`
                 font-size: 2.5rem;
 
                 &:hover {
-                    color: #00c5a2;
+                    color: #01967b;
                 }
             }
         }
@@ -44,7 +44,7 @@ const StyledDiv = styled.div`
                 }
 
                 &:hover {
-                    color: #00c5a2;
+                    color: #01967b;
                 }
             }
         }
