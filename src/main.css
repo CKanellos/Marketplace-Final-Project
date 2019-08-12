@@ -10,6 +10,7 @@ Green: #00c5a2
 
 body {
     margin: 0;
+    padding-bottom: 50px;
     font-family: Helvetica, sans-serif;
 }
 
@@ -37,13 +38,13 @@ input[type="password"] {
 .firstHeading {
     color: #004d8a;
     font-size: 4rem;
-    font-family: Verdana, sans-serif;
     font-weight: bold;
     margin: 150px 0 25px 0;
 }
 
 .secondHeading {
-    font-size: 2rem;
+    font-size: 1.4rem;
+    color: #333333;
     margin: 0 0 40px 0;
 }
 
@@ -54,13 +55,12 @@ input[type="password"] {
     text-decoration: none;
     color: white;
     background-color: #2196f3;
-    height: 20px;
     width: 150px;
     text-align: center;
 }
 
 .market {
-    width: 600px;
+    width: 500px;
 }
 
 .homeLayout {
@@ -76,8 +76,9 @@ input[type="password"] {
 }
 
 .homeLayout > .right {
-    margin-right: 125px;
+    margin-right: 200px;
     margin-top: 50px;
+    text-align: right;
 }
 
 .homeLayout input[type="text"],
@@ -87,9 +88,16 @@ input[type="password"] {
 
 .homeLayout input[type="submit"] {
     width: 330px;
-    height: 43px;
     background-color: #2196f3;
     color: white;
-    border-radius: 2px;
     cursor: pointer;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    outline: none;
 }
+
+
+
+                

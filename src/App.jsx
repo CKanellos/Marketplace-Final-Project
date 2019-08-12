@@ -7,6 +7,7 @@ import Signup from './Signup.jsx';
 import Products from './Products.jsx';
 import ProductSpecs from './ProductSpecs.jsx';
 import Sell from './Sell.jsx';
+import Cart from './Cart.jsx';
 import Footer from './Footer.jsx';
 
 const renderHome = () => {
@@ -34,6 +35,10 @@ const renderSell = () => {
     return <Sell />;
 }
 
+const renderCart = () => {
+    return <Cart />;
+}
+
 class App extends Component {
     render = () => {
         return (
@@ -45,6 +50,7 @@ class App extends Component {
                 <Route exact={true} path="/items" render={renderItems} />
                 <Route exact={true} path="/itemSpecs/:id" render={renderItemSpecs} />
                 <Route exact={true} path="/sell" render={renderSell} />
+                <Route exact={true} path="/cart" render={renderCart} />
                 <Footer />
             </BrowserRouter>
         );

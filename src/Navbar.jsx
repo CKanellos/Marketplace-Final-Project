@@ -63,6 +63,11 @@ const StyledNav = styled.nav`
             pointer-events: none;
         }
     }
+
+    .logout {
+        margin-left: 50px;
+        margin-right: 0;
+    }
 `;
 
 class Navbar extends Component {
@@ -76,6 +81,9 @@ class Navbar extends Component {
             this.props.history.push('/');
         }
     }
+    handleQuery = evt => {
+        this.props.dispatch({ type: 'query', query: event.target.value });
+    }
     render = () => {
         let path = this.props.location.pathname;
         if (this.props.lgin) {
@@ -84,14 +92,14 @@ class Navbar extends Component {
                     <div>
                         <Link to="/"><img src="/alibay.png" className="logo" /></Link>
                         <div className="search">
-                            <input type="text" />
+                            <input type="text" onChange={this.handleQuery} value={this.props.query} />
                         </div>
                     </div>
                     <div>
                         <Link to="/items" className={path === '/items' ? 'buy active' : 'buy'}> BUY</Link>
                         <Link to="/sell" className={path === '/sell' ? 'sell active' : 'sell'}>SELL</Link>
-                        <button onClick={this.handleLogout} className="logout">LOGOUT</button>
                         <Link to="/cart"><img src="/cart.png" className="cart"/></Link>
+                        <button onClick={this.handleLogout} className="logout">LOGOUT</button>
                     </div>
                 </StyledNav>
             )
@@ -111,7 +119,7 @@ class Navbar extends Component {
 }
 
 let mapStateToProps = state => {
-    return { lgin: state.loggedIn };
+    return { lgin: state.loggedIn, query: state.searchQuery };
 };
  
 export default withRouter(connect(mapStateToProps)(Navbar));

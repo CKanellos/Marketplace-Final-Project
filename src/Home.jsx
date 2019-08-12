@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const StyledDiv = styled.div`
-    
+    margin-left: 100px;
 `;
 
 class Home extends Component {

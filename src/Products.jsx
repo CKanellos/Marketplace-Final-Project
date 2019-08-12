@@ -51,11 +51,16 @@ class Products extends Component {
     }
     render = () => {
         let productToElem = (productObj, idx) => {
+            if (!productObj.title.toLowerCase().includes(this.props.query.toLowerCase())) {
+                return <></>;
+            }
+            console.log('price', productObj.price);
+            console.log('typeof price', typeof productObj.price);
             return (
                 <Link to={'/itemSpecs/' + idx}>
                     <img src={productObj.images[0]} />
                     <p className="title">{productObj.title}</p>
-                    <p className="price">{productObj.price}</p>
+                    <p className="price">{"$" + productObj.price.toFixed(2)}</p>
                 </Link>
             )
         };
@@ -69,7 +74,7 @@ class Products extends Component {
 }
 
 let mapStateToProps = state => {
-    return { lgin: state.loggedIn, products: state.products };
+    return { lgin: state.loggedIn, products: state.products, query: state.searchQuery };
 };
  
 export default withRouter(connect(mapStateToProps)(Products));

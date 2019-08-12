@@ -18,7 +18,7 @@ const StyledDiv = styled.div`
                 font-size: 2.5rem;
 
                 &:hover {
-                    color: black;
+                    color: #00c5a2;
                 }
             }
         }
@@ -44,7 +44,7 @@ const StyledDiv = styled.div`
                 }
 
                 &:hover {
-                    color: black;
+                    color: #00c5a2;
                 }
             }
         }
@@ -62,6 +62,10 @@ const StyledDiv = styled.div`
                 font-style: italic;
             }
 
+            .description {
+                line-height: 1.5rem;
+            }
+
             .price {
                 font-weight: bold;
                 font-size: 1.20rem;
@@ -69,14 +73,20 @@ const StyledDiv = styled.div`
             }
 
             button {
-                background-color: #004d8a;
+                background-color: #2196f3;
                 color: white;
-                padding: 20px;
+                padding: 15px;
                 border-radius: 5px;
                 cursor: pointer;
                 font-weight: bold;
                 font-size: 1rem;
                 outline: none;
+            }
+
+            .note {
+                color: rgba(0, 0, 0, 0.5);
+                font-style: italic;
+                margin-top: 20px;
             }
         }
     }
@@ -94,8 +104,8 @@ class ProductSpecs extends Component {
         };
     }
     componentDidMount = () => {
-        let updateProducts = async () => {
-            let response = await fetch('/products');
+        let updateCartData = async () => {
+            let response = await fetch('/cartdata');
             let body = await response.json();
             if (!body.success) {
                 this.props.dispatch({ type: "logout-success" });
@@ -104,8 +114,9 @@ class ProductSpecs extends Component {
             }
             this.props.dispatch({ type: "login-success" });
             this.props.dispatch({ type: "update-products", products: body.products });
+            this.props.dispatch({ type: "set-cart-items", cartItems: body.cartItems });
         };
-        updateProducts();
+        updateCartData();
     }
     handlePrevImg = (evt) => {
         if (this.state.imgIdx > 0) {
@@ -117,12 +128,33 @@ class ProductSpecs extends Component {
             this.setState({ imgIdx: this.state.imgIdx + 1 });
         }
     }
+    handleAddToCart = async (evt) => {
+        let data = new FormData();
+        data.append("itemId", this.props.itemId);
+        let response = await fetch("/addtocart", {
+            method: "POST",
+            body: data,
+            credentials: "include"
+        });
+        let body = await response.json();
+        if (!body.success) {
+            this.props.dispatch({ type: "logout-success" });
+            this.props.history.push('/');
+            return;
+        }
+        this.props.dispatch({ type: "set-cart-items", cartItems: body.cartItems });
+    }
     render = () => {
         if (this.props.lgin === null || this.props.products.length === 0 || !this.props.lgin) {
             return <></>;
         }
         let productObj = this.props.products[this.props.itemId];
-        console.log('productObj', productObj);
+        let qtyInCart = 0;
+        this.props.cartItems.forEach(itemId => {
+            if (itemId === this.props.itemId) {
+                qtyInCart++;
+            }
+        });
         return (
             <StyledDiv>
                 <div className="back"><Link to="/items">&#9665;</Link></div>
@@ -135,8 +167,9 @@ class ProductSpecs extends Component {
                     <p className="title">{productObj.title}</p>
                     <p className="location">{productObj.location}</p>
                     <p className="description">{productObj.description}</p>
-                    <p className="price">{productObj.price}</p>
-                    <button>Add to Cart</button>
+                    <p className="price">{"$" + productObj.price.toFixed(2)}</p>
+                    <button onClick={this.handleAddToCart}>Add to Cart</button>
+                    <p className="note">{qtyInCart > 0 ? 'Qty in Cart: ' + qtyInCart : ''}</p>
                 </div>
             </StyledDiv>
         )
@@ -144,7 +177,7 @@ class ProductSpecs extends Component {
 }
 
 let mapStateToProps = state => {
-    return { lgin: state.loggedIn, products: state.products };
+    return { lgin: state.loggedIn, products: state.products, cartItems: state.cartItems };
 };
  
 export default withRouter(connect(mapStateToProps)(ProductSpecs));

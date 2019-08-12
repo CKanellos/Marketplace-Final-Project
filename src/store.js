@@ -2,7 +2,9 @@ import { createStore } from 'redux';
 
 const initialState = {
     loggedIn: null,
-    products: []
+    products: [],
+    cartItems: [],
+    searchQuery: ''
 };
 
 let reducer = (state, action) => {
@@ -14,6 +16,12 @@ let reducer = (state, action) => {
     }
     if (action.type === "update-products") {
         return { ...state, products: action.products };
+    }
+    if (action.type === "set-cart-items") {
+        return { ...state, cartItems: action.cartItems };
+    }
+    if (action.type === 'query') {
+        return { ...state, searchQuery: action.query };
     }
     return state;
 };

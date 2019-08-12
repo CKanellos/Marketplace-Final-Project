@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const StyledDiv = styled.div`
     form {
-        margin-left: 75px;
+        margin-left: 100px;
     }
 
     .secondHeading {

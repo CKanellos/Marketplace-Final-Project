@@ -16,7 +16,12 @@ const StyledForm = styled.form`
 
         &.img {
             margin-right: 63px;
-            width: 450px;
+            width: 350px;
+            padding-left: 100px;
+
+            img {
+                height: 225px;
+            }
         }
 
         &.text {
@@ -28,9 +33,9 @@ const StyledForm = styled.form`
             }
 
             input[type="submit"] {
-                background-color: #004d8a;
+                background-color: #2196f3;
                 color: white;
-                padding: 20px;
+                padding: 15px;
                 border-radius: 5px;
                 cursor: pointer;
                 font-weight: bold;
@@ -43,6 +48,16 @@ const StyledForm = styled.form`
 `;
 
 class Sell extends Component {
+    constructor (props) {
+        super(props)
+        this.state = {
+            title: '',
+            location: '',
+            description: '',
+            price: '',
+            image: null
+        }
+    }
     componentDidMount = async () => {
         let response = await fetch('/session');
         let body = await response.json();
@@ -58,11 +73,46 @@ class Sell extends Component {
             this.props.history.push('/');
         }
     }
-    handleSubmit = (evt) => {
+    handleSubmit = async (evt) => {
         evt.preventDefault();
-        // TODO
+        let data = new FormData();
+        data.append("image", this.state.image);
+        data.append("title", this.state.title);
+        data.append("location", this.state.location);
+        data.append("description", this.state.description);
+        data.append("price", this.state.price);
+        let response = await fetch("/addProduct", {
+            method: "POST",
+            body: data,
+            credentials: "include"
+        });
+        let body = await response.json();
+        if (!body.success) {
+            this.props.dispatch({
+                type: 'logout-success'
+            });
+            this.props.history.push('/');
+            return;
+        }
+        this.props.dispatch({ type: "update-products", products: body.products });
+        this.props.history.push('/items');
     }
-    render = () => {
+    handleFileChange = evt => {
+        this.setState({ image: evt.target.files[0] });
+    }
+    handleTitleChange = evt => {
+        this.setState({ title: evt.target.value });
+    }
+    handleLocationChange = evt => {
+        this.setState({ location: evt.target.value });
+    }
+    handleDescriptionChange = evt => {
+        this.setState({ description: evt.target.value });
+    }
+    handlePriceChange = evt => {
+        this.setState({ price: Number(evt.target.value) });
+    }
+    render = () => {;
         if (this.props.lgin === null || !this.props.lgin) {
             return <></>;
         }
@@ -71,13 +121,13 @@ class Sell extends Component {
                 <div className="back"></div>
                 <div className="img">
                     <img src="/pic.png" />
-                    <input type="file" />
+                    <input type="file" onChange={this.handleFileChange} />
                 </div>
                 <div className="text">
-                    <input type="text" placeholder="Title"/><br />
-                    <input type="text" placeholder="Location" /><br />
-                    <input type="text" placeholder="Description" /><br />
-                    <input type="text" placeholder="Price" /><br />
+                    <input type="text" onChange={this.handleTitleChange} placeholder="Title"/><br />
+                    <input type="text" onChange={this.handleLocationChange} placeholder="Location" /><br />
+                    <input type="text" onChange={this.handleDescriptionChange} placeholder="Description" /><br />
+                    <input type="text" onChange={this.handlePriceChange} placeholder="Price" /><br />
                     <input type="submit" />
                 </div>
             </StyledForm>
